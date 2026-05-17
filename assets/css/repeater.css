@@ -1,0 +1,66 @@
+.scn-repeater {
+	margin-top: 8px;
+}
+
+.scn-repeater-table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.scn-repeater-table th,
+.scn-repeater-table td {
+	padding: 8px;
+	border: 1px solid #dcdcde;
+	vertical-align: top;
+	background: #fff;
+}
+
+.scn-repeater-table thead th {
+	background: #f6f7f7;
+	font-weight: 600;
+	font-size: 12px;
+}
+
+.scn-repeater-table tfoot td {
+	background: #f6f7f7;
+	text-align: left;
+	border-top: 2px solid #dcdcde;
+}
+
+.scn-repeater-handle {
+	width: 24px;
+	text-align: center;
+	color: #999;
+	cursor: grab;
+	font-size: 16px;
+	user-select: none;
+}
+
+.scn-repeater-remove {
+	width: 32px;
+	text-align: center;
+}
+
+.scn-repeater-remove-btn {
+	background: none;
+	border: 0;
+	color: #b32d2e;
+	cursor: pointer;
+	font-size: 18px;
+	line-height: 1;
+	padding: 0 4px;
+}
+
+.scn-repeater-remove-btn:hover {
+	color: #fff;
+	background: #b32d2e;
+	border-radius: 3px;
+}
+
+.scn-repeater-row-template {
+	display: none;
+}
+
+.scn-repeater-table .acf-input {
+	margin: 0;
+}
