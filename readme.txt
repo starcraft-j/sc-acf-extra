@@ -1,10 +1,10 @@
-=== SCN ACF Extra ===
+=== SC ACF Extra ===
 Contributors: starcraftn
 Tags: acf, advanced-custom-fields, repeater, custom-fields
 Requires at least: 5.8
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 0.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,7 +28,7 @@ starcraft-n が制作・運用する WordPress 案件のために作られた、
 
 == Installation ==
 
-1. プラグインを `/wp-content/plugins/scn-acf-extra/` にアップロードします。
+1. プラグインを `/wp-content/plugins/sc-acf-extra/` にアップロードします。
 2. WordPress 管理画面の「プラグイン」メニューから有効化します。
 3. ACF (無料版) が有効化されていることを確認してください。
 

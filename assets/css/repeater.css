@@ -1,33 +1,33 @@
-.scn-repeater {
+.sc-repeater {
 	margin-top: 8px;
 }
 
-.scn-repeater-table {
+.sc-repeater-table {
 	border-collapse: collapse;
 	width: 100%;
 }
 
-.scn-repeater-table th,
-.scn-repeater-table td {
+.sc-repeater-table th,
+.sc-repeater-table td {
 	padding: 8px;
 	border: 1px solid #dcdcde;
 	vertical-align: top;
 	background: #fff;
 }
 
-.scn-repeater-table thead th {
+.sc-repeater-table thead th {
 	background: #f6f7f7;
 	font-weight: 600;
 	font-size: 12px;
 }
 
-.scn-repeater-table tfoot td {
+.sc-repeater-table tfoot td {
 	background: #f6f7f7;
 	text-align: left;
 	border-top: 2px solid #dcdcde;
 }
 
-.scn-repeater-handle {
+.sc-repeater-handle {
 	width: 24px;
 	text-align: center;
 	color: #999;
@@ -36,12 +36,12 @@
 	user-select: none;
 }
 
-.scn-repeater-remove {
+.sc-repeater-remove {
 	width: 32px;
 	text-align: center;
 }
 
-.scn-repeater-remove-btn {
+.sc-repeater-remove-btn {
 	background: none;
 	border: 0;
 	color: #b32d2e;
@@ -51,47 +51,47 @@
 	padding: 0 4px;
 }
 
-.scn-repeater-remove-btn:hover {
+.sc-repeater-remove-btn:hover {
 	color: #fff;
 	background: #b32d2e;
 	border-radius: 3px;
 }
 
-.scn-repeater-row-template {
+.sc-repeater-row-template {
 	display: none;
 }
 
-.scn-repeater-table .acf-input {
+.sc-repeater-table .acf-input {
 	margin: 0;
 }
 
 /* Sub-fields manager (field-group edit screen) */
 
 /* Make every input/select inside the sub-fields table fill its cell. */
-.scn-sub-fields-table input[type="text"],
-.scn-sub-fields-table input[type="number"],
-.scn-sub-fields-table select {
+.sc-sub-fields-table input[type="text"],
+.sc-sub-fields-table input[type="number"],
+.sc-sub-fields-table select {
 	width: 100%;
 	box-sizing: border-box;
 }
 
-.scn-sub-fields-table td {
+.sc-sub-fields-table td {
 	vertical-align: top;
 }
 
 /* Type-conditional controls: hidden by default, shown only for matching row data-type. */
-.scn-sub-fields-image-only,
-.scn-sub-fields-textarea-only {
+.sc-sub-fields-image-only,
+.sc-sub-fields-textarea-only {
 	display: none !important;
 	margin-top: 8px;
 }
 
-.scn-sub-fields-row[data-type="image"] .scn-sub-fields-image-only,
-.scn-sub-fields-row[data-type="textarea"] .scn-sub-fields-textarea-only {
+.sc-sub-fields-row[data-type="image"] .sc-sub-fields-image-only,
+.sc-sub-fields-row[data-type="textarea"] .sc-sub-fields-textarea-only {
 	display: block !important;
 }
 
-.scn-sub-fields-inline-label {
+.sc-sub-fields-inline-label {
 	display: block;
 	font-size: 12px;
 	color: #555;

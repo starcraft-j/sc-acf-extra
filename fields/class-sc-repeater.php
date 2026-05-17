@@ -1,6 +1,6 @@
 <?php
 /**
- * SCN Repeater field type.
+ * SC Repeater field type.
  *
  * Storage pattern is Pro-compatible:
  *   meta_key                    -> count of rows (integer)
@@ -19,18 +19,18 @@ if ( ! class_exists( 'acf_field' ) ) {
 	return;
 }
 
-class SCN_ACF_Repeater extends acf_field {
+class SC_ACF_Repeater extends acf_field {
 
 	public function initialize() {
-		$this->name     = 'scn_repeater';
-		$this->label    = __( 'SC Repeater', 'scn-acf-extra' );
+		$this->name     = 'sc_repeater';
+		$this->label    = __( 'SC Repeater', 'sc-acf-extra' );
 		$this->category = 'layout';
 		$this->defaults = array(
 			'sub_fields'    => array(),
 			'min'           => 0,
 			'max'           => 0,
 			'layout'        => 'table',
-			'button_label'  => __( '行を追加', 'scn-acf-extra' ),
+			'button_label'  => __( '行を追加', 'sc-acf-extra' ),
 		);
 	}
 
@@ -44,19 +44,19 @@ class SCN_ACF_Repeater extends acf_field {
 	 */
 	public function render_field_settings( $field ) {
 		acf_render_field_setting( $field, array(
-			'label'        => __( '最小行数', 'scn-acf-extra' ),
+			'label'        => __( '最小行数', 'sc-acf-extra' ),
 			'name'         => 'min',
 			'type'         => 'number',
-			'instructions' => __( '0 で下限なし。', 'scn-acf-extra' ),
+			'instructions' => __( '0 で下限なし。', 'sc-acf-extra' ),
 		) );
 		acf_render_field_setting( $field, array(
-			'label'        => __( '最大行数', 'scn-acf-extra' ),
+			'label'        => __( '最大行数', 'sc-acf-extra' ),
 			'name'         => 'max',
 			'type'         => 'number',
-			'instructions' => __( '0 で上限なし。', 'scn-acf-extra' ),
+			'instructions' => __( '0 で上限なし。', 'sc-acf-extra' ),
 		) );
 		acf_render_field_setting( $field, array(
-			'label' => __( '行を追加するボタンのラベル', 'scn-acf-extra' ),
+			'label' => __( '行を追加するボタンのラベル', 'sc-acf-extra' ),
 			'name'  => 'button_label',
 			'type'  => 'text',
 		) );
@@ -64,27 +64,27 @@ class SCN_ACF_Repeater extends acf_field {
 		// Sub-fields manager — rendered inside ACF's standard settings row container.
 		$sub_fields = is_array( $field['sub_fields'] ) ? $field['sub_fields'] : array();
 		$supported  = array(
-			'text'     => __( 'テキスト', 'scn-acf-extra' ),
-			'textarea' => __( 'テキストエリア', 'scn-acf-extra' ),
-			'url'      => __( 'URL', 'scn-acf-extra' ),
-			'number'   => __( '数値', 'scn-acf-extra' ),
-			'image'    => __( '画像', 'scn-acf-extra' ),
+			'text'     => __( 'テキスト', 'sc-acf-extra' ),
+			'textarea' => __( 'テキストエリア', 'sc-acf-extra' ),
+			'url'      => __( 'URL', 'sc-acf-extra' ),
+			'number'   => __( '数値', 'sc-acf-extra' ),
+			'image'    => __( '画像', 'sc-acf-extra' ),
 		);
 		$field_key  = $field['key'] ?? '';
 		?>
-		<div class="acf-field" data-name="sub_fields" data-type="scn_sub_fields">
+		<div class="acf-field" data-name="sub_fields" data-type="sc_sub_fields">
 			<div class="acf-label">
-				<label><?php esc_html_e( 'サブフィールド', 'scn-acf-extra' ); ?></label>
-				<p class="description"><?php esc_html_e( 'リピーターの各カラム（列）を定義します。Name は get_field() で使う配列キーになります。', 'scn-acf-extra' ); ?></p>
+				<label><?php esc_html_e( 'サブフィールド', 'sc-acf-extra' ); ?></label>
+				<p class="description"><?php esc_html_e( 'リピーターの各カラム（列）を定義します。Name は get_field() で使う配列キーになります。', 'sc-acf-extra' ); ?></p>
 			</div>
 			<div class="acf-input">
-				<div class="scn-sub-fields" data-parent-key="<?php echo esc_attr( $field_key ); ?>">
-					<table class="widefat scn-sub-fields-table">
+				<div class="sc-sub-fields" data-parent-key="<?php echo esc_attr( $field_key ); ?>">
+					<table class="widefat sc-sub-fields-table">
 						<thead>
 							<tr>
-								<th style="width:30%"><?php esc_html_e( 'ラベル', 'scn-acf-extra' ); ?></th>
-								<th style="width:25%"><?php esc_html_e( '名前', 'scn-acf-extra' ); ?></th>
-								<th style="width:40%"><?php esc_html_e( 'タイプ', 'scn-acf-extra' ); ?></th>
+								<th style="width:30%"><?php esc_html_e( 'ラベル', 'sc-acf-extra' ); ?></th>
+								<th style="width:25%"><?php esc_html_e( '名前', 'sc-acf-extra' ); ?></th>
+								<th style="width:40%"><?php esc_html_e( 'タイプ', 'sc-acf-extra' ); ?></th>
 								<th style="width:5%"></th>
 							</tr>
 						</thead>
@@ -96,12 +96,12 @@ class SCN_ACF_Repeater extends acf_field {
 						<tfoot>
 							<tr>
 								<td colspan="4">
-									<button type="button" class="button scn-sub-fields-add"><?php esc_html_e( '+ サブフィールドを追加', 'scn-acf-extra' ); ?></button>
+									<button type="button" class="button sc-sub-fields-add"><?php esc_html_e( '+ サブフィールドを追加', 'sc-acf-extra' ); ?></button>
 								</td>
 							</tr>
 						</tfoot>
 					</table>
-					<template class="scn-sub-fields-row-template"><?php $this->render_sub_field_row( $field['prefix'], '__INDEX__', array(), $supported ); ?></template>
+					<template class="sc-sub-fields-row-template"><?php $this->render_sub_field_row( $field['prefix'], '__INDEX__', array(), $supported ); ?></template>
 				</div>
 			</div>
 		</div>
@@ -126,41 +126,41 @@ class SCN_ACF_Repeater extends acf_field {
 		$base          = "{$prefix}[sub_fields][{$index}]";
 
 		$return_formats = array(
-			'array' => __( '配列 (Array)', 'scn-acf-extra' ),
-			'url'   => __( 'URL', 'scn-acf-extra' ),
-			'id'    => __( 'ID', 'scn-acf-extra' ),
+			'array' => __( '配列 (Array)', 'sc-acf-extra' ),
+			'url'   => __( 'URL', 'sc-acf-extra' ),
+			'id'    => __( 'ID', 'sc-acf-extra' ),
 		);
 
 		$new_lines_opts = array(
-			'wpautop' => __( '段落 + 改行 (wpautop)', 'scn-acf-extra' ),
-			'br'      => __( '改行のみ (<br>)', 'scn-acf-extra' ),
-			''        => __( 'なし (そのまま出力)', 'scn-acf-extra' ),
+			'wpautop' => __( '段落 + 改行 (wpautop)', 'sc-acf-extra' ),
+			'br'      => __( '改行のみ (<br>)', 'sc-acf-extra' ),
+			''        => __( 'なし (そのまま出力)', 'sc-acf-extra' ),
 		);
 		?>
-		<tr class="scn-sub-fields-row" data-index="<?php echo esc_attr( (string) $index ); ?>" data-type="<?php echo esc_attr( $type ); ?>">
+		<tr class="sc-sub-fields-row" data-index="<?php echo esc_attr( (string) $index ); ?>" data-type="<?php echo esc_attr( $type ); ?>">
 			<td>
-				<input type="text" name="<?php echo esc_attr( "{$base}[label]" ); ?>" value="<?php echo esc_attr( $label ); ?>" placeholder="<?php esc_attr_e( '例：タイトル', 'scn-acf-extra' ); ?>" />
-				<input type="hidden" name="<?php echo esc_attr( "{$base}[key]" ); ?>" value="<?php echo esc_attr( $key ); ?>" class="scn-sub-fields-key" />
+				<input type="text" name="<?php echo esc_attr( "{$base}[label]" ); ?>" value="<?php echo esc_attr( $label ); ?>" placeholder="<?php esc_attr_e( '例：タイトル', 'sc-acf-extra' ); ?>" />
+				<input type="hidden" name="<?php echo esc_attr( "{$base}[key]" ); ?>" value="<?php echo esc_attr( $key ); ?>" class="sc-sub-fields-key" />
 			</td>
 			<td>
-				<input type="text" name="<?php echo esc_attr( "{$base}[name]" ); ?>" value="<?php echo esc_attr( $name ); ?>" placeholder="<?php esc_attr_e( '例：title', 'scn-acf-extra' ); ?>" />
+				<input type="text" name="<?php echo esc_attr( "{$base}[name]" ); ?>" value="<?php echo esc_attr( $name ); ?>" placeholder="<?php esc_attr_e( '例：title', 'sc-acf-extra' ); ?>" />
 			</td>
 			<td>
-				<select name="<?php echo esc_attr( "{$base}[type]" ); ?>" class="scn-sub-fields-type">
+				<select name="<?php echo esc_attr( "{$base}[type]" ); ?>" class="sc-sub-fields-type">
 					<?php foreach ( $types as $slug => $type_label ) : ?>
 						<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $type, $slug ); ?>><?php echo esc_html( $type_label ); ?></option>
 					<?php endforeach; ?>
 				</select>
-				<span class="scn-sub-fields-image-only">
-					<label class="scn-sub-fields-inline-label"><?php esc_html_e( '出力', 'scn-acf-extra' ); ?>:</label>
+				<span class="sc-sub-fields-image-only">
+					<label class="sc-sub-fields-inline-label"><?php esc_html_e( '出力', 'sc-acf-extra' ); ?>:</label>
 					<select name="<?php echo esc_attr( "{$base}[return_format]" ); ?>">
 						<?php foreach ( $return_formats as $slug => $rf_label ) : ?>
 							<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $return_format, $slug ); ?>><?php echo esc_html( $rf_label ); ?></option>
 						<?php endforeach; ?>
 					</select>
 				</span>
-				<span class="scn-sub-fields-textarea-only">
-					<label class="scn-sub-fields-inline-label"><?php esc_html_e( '改行', 'scn-acf-extra' ); ?>:</label>
+				<span class="sc-sub-fields-textarea-only">
+					<label class="sc-sub-fields-inline-label"><?php esc_html_e( '改行', 'sc-acf-extra' ); ?>:</label>
 					<select name="<?php echo esc_attr( "{$base}[new_lines]" ); ?>">
 						<?php foreach ( $new_lines_opts as $slug => $nl_label ) : ?>
 							<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $new_lines, $slug ); ?>><?php echo esc_html( $nl_label ); ?></option>
@@ -169,7 +169,7 @@ class SCN_ACF_Repeater extends acf_field {
 				</span>
 			</td>
 			<td>
-				<button type="button" class="button-link-delete scn-sub-fields-remove" aria-label="<?php esc_attr_e( 'サブフィールドを削除', 'scn-acf-extra' ); ?>">×</button>
+				<button type="button" class="button-link-delete sc-sub-fields-remove" aria-label="<?php esc_attr_e( 'サブフィールドを削除', 'sc-acf-extra' ); ?>">×</button>
 			</td>
 		</tr>
 		<?php
@@ -217,7 +217,7 @@ class SCN_ACF_Repeater extends acf_field {
 	public function render_field( $field ) {
 		$sub_fields = $field['sub_fields'];
 		if ( empty( $sub_fields ) ) {
-			echo '<p>' . esc_html__( 'サブフィールドが定義されていません。', 'scn-acf-extra' ) . '</p>';
+			echo '<p>' . esc_html__( 'サブフィールドが定義されていません。', 'sc-acf-extra' ) . '</p>';
 			return;
 		}
 
@@ -228,21 +228,21 @@ class SCN_ACF_Repeater extends acf_field {
 		$input_prefix = "acf[{$field['key']}]";
 
 		$wrapper_attrs = array(
-			'class'              => 'scn-repeater',
+			'class'              => 'sc-repeater',
 			'data-min'           => (int) $field['min'],
 			'data-max'           => (int) $field['max'],
 			'data-input-prefix'  => $input_prefix,
 		);
 		?>
 		<div <?php echo acf_esc_attrs( $wrapper_attrs ); ?>>
-			<table class="scn-repeater-table widefat">
+			<table class="sc-repeater-table widefat">
 				<thead>
 					<tr>
-						<th class="scn-repeater-handle"></th>
+						<th class="sc-repeater-handle"></th>
 						<?php foreach ( $sub_fields as $sub ) : ?>
 							<th><?php echo esc_html( $sub['label'] ); ?></th>
 						<?php endforeach; ?>
-						<th class="scn-repeater-remove"></th>
+						<th class="sc-repeater-remove"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -253,7 +253,7 @@ class SCN_ACF_Repeater extends acf_field {
 				<tfoot>
 					<tr>
 						<td colspan="<?php echo (int) ( count( $sub_fields ) + 2 ); ?>">
-							<button type="button" class="button scn-repeater-add">
+							<button type="button" class="button sc-repeater-add">
 								<?php echo esc_html( $field['button_label'] ); ?>
 							</button>
 						</td>
@@ -261,7 +261,7 @@ class SCN_ACF_Repeater extends acf_field {
 				</tfoot>
 			</table>
 
-			<template class="scn-repeater-row-template"><?php $this->render_row( $field, $sub_fields, '__INDEX__', array() ); ?></template>
+			<template class="sc-repeater-row-template"><?php $this->render_row( $field, $sub_fields, '__INDEX__', array() ); ?></template>
 		</div>
 		<?php
 	}
@@ -276,8 +276,8 @@ class SCN_ACF_Repeater extends acf_field {
 	 */
 	private function render_row( $field, $sub_fields, $index, $row_value ) {
 		?>
-		<tr class="scn-repeater-row" data-index="<?php echo esc_attr( (string) $index ); ?>">
-			<td class="scn-repeater-handle" aria-hidden="true">≡</td>
+		<tr class="sc-repeater-row" data-index="<?php echo esc_attr( (string) $index ); ?>">
+			<td class="sc-repeater-handle" aria-hidden="true">≡</td>
 			<?php foreach ( $sub_fields as $sub ) :
 				$sub_field = wp_parse_args( $sub, array(
 					'type'    => 'text',
@@ -297,8 +297,8 @@ class SCN_ACF_Repeater extends acf_field {
 					<?php acf_render_field( $sub_field ); ?>
 				</td>
 			<?php endforeach; ?>
-			<td class="scn-repeater-remove">
-				<button type="button" class="button-link-delete scn-repeater-remove-btn" aria-label="<?php esc_attr_e( '行を削除', 'scn-acf-extra' ); ?>">×</button>
+			<td class="sc-repeater-remove">
+				<button type="button" class="button-link-delete sc-repeater-remove-btn" aria-label="<?php esc_attr_e( '行を削除', 'sc-acf-extra' ); ?>">×</button>
 			</td>
 		</tr>
 		<?php
@@ -309,17 +309,17 @@ class SCN_ACF_Repeater extends acf_field {
 	 */
 	public function field_group_admin_enqueue_scripts() {
 		wp_enqueue_script(
-			'scn-acf-field-settings',
-			SCN_ACF_EXTRA_URL . 'assets/js/field-settings.js',
+			'sc-acf-field-settings',
+			SC_ACF_EXTRA_URL . 'assets/js/field-settings.js',
 			array( 'jquery', 'acf-input' ),
-			SCN_ACF_EXTRA_VERSION,
+			SC_ACF_EXTRA_VERSION,
 			true
 		);
 		wp_enqueue_style(
-			'scn-acf-repeater',
-			SCN_ACF_EXTRA_URL . 'assets/css/repeater.css',
+			'sc-acf-repeater',
+			SC_ACF_EXTRA_URL . 'assets/css/repeater.css',
 			array(),
-			SCN_ACF_EXTRA_VERSION
+			SC_ACF_EXTRA_VERSION
 		);
 	}
 
@@ -328,17 +328,17 @@ class SCN_ACF_Repeater extends acf_field {
 	 */
 	public function input_admin_enqueue_scripts() {
 		wp_enqueue_script(
-			'scn-acf-repeater',
-			SCN_ACF_EXTRA_URL . 'assets/js/repeater.js',
+			'sc-acf-repeater',
+			SC_ACF_EXTRA_URL . 'assets/js/repeater.js',
 			array( 'jquery', 'acf-input' ),
-			SCN_ACF_EXTRA_VERSION,
+			SC_ACF_EXTRA_VERSION,
 			true
 		);
 		wp_enqueue_style(
-			'scn-acf-repeater',
-			SCN_ACF_EXTRA_URL . 'assets/css/repeater.css',
+			'sc-acf-repeater',
+			SC_ACF_EXTRA_URL . 'assets/css/repeater.css',
 			array(),
-			SCN_ACF_EXTRA_VERSION
+			SC_ACF_EXTRA_VERSION
 		);
 	}
 

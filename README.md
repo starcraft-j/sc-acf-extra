@@ -1,4 +1,4 @@
-# SCN ACF Extra
+# SC ACF Extra
 
 ACF 無料版に Repeater など Pro 相当のフィールドを追加する拡張プラグイン。**ACF Pro と完全互換のメタ保存形式**で、後から Pro 有効化してもデータはそのまま動きます。
 
@@ -35,7 +35,7 @@ add_action( 'acf/init', function () {
                 'key'          => 'field_works_features',
                 'label'        => '制作ポイント',
                 'name'         => 'features',
-                'type'         => 'scn_repeater',
+                'type'         => 'sc_repeater',
                 'min'          => 0,
                 'max'          => 5,
                 'button_label' => 'ポイントを追加',
