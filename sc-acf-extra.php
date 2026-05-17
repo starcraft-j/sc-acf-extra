@@ -3,7 +3,7 @@
  * Plugin Name: SC ACF Extra
  * Plugin URI:  https://github.com/starcraft-j/sc-acf-extra
  * Description: ACF 無料版に Repeater など Pro 相当のフィールドを追加する拡張プラグイン。Pro 互換のメタ保存形式で、後から ACF Pro へ無断データ移行可能。
- * Version:     0.4.0
+ * Version:     0.5.0
  * Author:      starcraft-n
  * Author URI:  https://starcraft-n.co.jp
  * License:     GPL-2.0-or-later
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SC_ACF_EXTRA_VERSION', '0.4.0' );
+define( 'SC_ACF_EXTRA_VERSION', '0.5.0' );
 define( 'SC_ACF_EXTRA_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SC_ACF_EXTRA_URL', plugin_dir_url( __FILE__ ) );
 
@@ -40,17 +40,22 @@ add_action( 'plugins_loaded', static function () {
 		} );
 		return;
 	}
+	require_once SC_ACF_EXTRA_PATH . 'includes/trait-sub-fields-ui.php';
 	require_once SC_ACF_EXTRA_PATH . 'fields/class-sc-repeater.php';
+	require_once SC_ACF_EXTRA_PATH . 'fields/class-sc-flexible.php';
 } );
 
 /**
- * Register the repeater field type with ACF.
+ * Register field types with ACF.
  *
  * ACF fires `acf/include_field_types` after the core field types are loaded.
- * We hook in there so our field is available everywhere `acf_get_field_type()` is used.
+ * We hook in there so our fields are available everywhere `acf_get_field_type()` is used.
  */
 add_action( 'acf/include_field_types', static function ( $version = 0 ) {
 	if ( class_exists( 'SC_ACF_Repeater' ) ) {
 		new SC_ACF_Repeater();
+	}
+	if ( class_exists( 'SC_ACF_Flexible' ) ) {
+		new SC_ACF_Flexible();
 	}
 } );

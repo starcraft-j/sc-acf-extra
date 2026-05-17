@@ -97,3 +97,105 @@
 	color: #555;
 	margin: 4px 0 2px;
 }
+
+/* Field-group edit screen: expand SC field types to full available width
+   (ACF's default max-width leaves a large empty column on the right). */
+.acf-field-object[data-type="sc_flexible"] .acf-field-settings,
+.acf-field-object[data-type="sc_repeater"] .acf-field-settings,
+.acf-field-object[data-type="sc_flexible"] .acf-field-settings .acf-fields,
+.acf-field-object[data-type="sc_repeater"] .acf-field-settings .acf-fields {
+	max-width: none !important;
+	width: 100% !important;
+}
+
+.acf-field-object[data-type="sc_flexible"] .acf-field-settings .acf-field,
+.acf-field-object[data-type="sc_repeater"] .acf-field-settings .acf-field {
+	max-width: none !important;
+}
+
+.sc-layouts,
+.sc-sub-fields {
+	width: 100%;
+}
+
+/* ACF 6.x 가 .acf-field-settings 내부 .acf-label/.acf-input 에 max-width:600px 를
+   걸어두기 때문에 그걸 강한 specificity 로 override. 우리 레이아웃 블록 안에서는
+   sub-fields 매니저가 블록 폭 전체를 써야 함. */
+.acf-field-settings .sc-layout-body > .acf-field,
+.acf-field-settings .sc-layout-body > .acf-field > .acf-label,
+.acf-field-settings .sc-layout-body > .acf-field > .acf-input {
+	display: block !important;
+	width: 100% !important;
+	max-width: none !important;
+	flex: none !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	border: none !important;
+}
+
+.acf-field-settings .sc-layout-body > .acf-field > .acf-label {
+	margin: 0 0 8px !important;
+}
+
+/* 레이아웃 매니저 자체 (.acf-field[data-name="layouts"]) 도 같은 600px 제한을 풀어줌 */
+.acf-field-settings .acf-field[data-name="layouts"],
+.acf-field-settings .acf-field[data-name="layouts"] > .acf-label,
+.acf-field-settings .acf-field[data-name="layouts"] > .acf-input,
+.acf-field-settings .acf-field[data-name="sub_fields"],
+.acf-field-settings .acf-field[data-name="sub_fields"] > .acf-label,
+.acf-field-settings .acf-field[data-name="sub_fields"] > .acf-input {
+	max-width: none !important;
+	width: 100% !important;
+}
+
+.sc-sub-fields-table {
+	width: 100%;
+}
+
+/* Flexible Content: layouts manager (field-group edit screen) */
+.sc-layout-block {
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	background: #fff;
+	margin-bottom: 12px;
+}
+
+.sc-layout-header {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 12px;
+	background: #f6f7f7;
+	border-bottom: 1px solid #c3c4c7;
+}
+
+.sc-layout-index {
+	font-weight: 600;
+	color: #1d2327;
+	font-size: 13px;
+}
+
+.sc-layout-header .sc-layout-label,
+.sc-layout-header .sc-layout-name {
+	flex: 1;
+}
+
+.sc-layout-remove {
+	background: none;
+	border: 0;
+	color: #b32d2e;
+	cursor: pointer;
+	font-size: 18px;
+	line-height: 1;
+	padding: 0 4px;
+}
+
+.sc-layout-remove:hover {
+	color: #fff;
+	background: #b32d2e;
+	border-radius: 3px;
+}
+
+.sc-layout-body {
+	padding: 12px;
+}

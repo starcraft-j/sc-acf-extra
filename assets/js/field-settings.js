@@ -44,4 +44,39 @@
 	$(document).on('change', '.sc-sub-fields-type', function () {
 		$(this).closest('.sc-sub-fields-row').attr('data-type', $(this).val());
 	});
+
+	// ----- Flexible Content: layouts list manager -----
+
+	function reindexLayouts($wrapper) {
+		$wrapper.find('> .sc-layouts-list > .sc-layout-block').each(function (i) {
+			var $block = $(this);
+			$block.attr('data-index', i);
+			$block.find('.sc-layout-index').text('#' + (i + 1));
+			$block.find('input, select, textarea').each(function () {
+				var $el = $(this);
+				['name', 'id'].forEach(function (attr) {
+					var val = $el.attr(attr);
+					if (!val) return;
+					$el.attr(attr, val.replace(/(\[layouts\])\[(?:\d+|__INDEX__)\]/, '$1[' + i + ']'));
+				});
+			});
+		});
+	}
+
+	$(document).on('click', '.sc-layouts-add', function (e) {
+		e.preventDefault();
+		var $wrapper = $(this).closest('.sc-layouts');
+		var tmpl = $wrapper.find('> .sc-layouts-block-template').html();
+		var nextIndex = $wrapper.find('> .sc-layouts-list > .sc-layout-block').length;
+		var html = tmpl.replace(/__INDEX__/g, nextIndex);
+		$wrapper.find('> .sc-layouts-list').append(html);
+		reindexLayouts($wrapper);
+	});
+
+	$(document).on('click', '.sc-layout-remove', function (e) {
+		e.preventDefault();
+		var $wrapper = $(this).closest('.sc-layouts');
+		$(this).closest('.sc-layout-block').remove();
+		reindexLayouts($wrapper);
+	});
 })(jQuery);

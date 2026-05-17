@@ -21,6 +21,8 @@ if ( ! class_exists( 'acf_field' ) ) {
 
 class SC_ACF_Repeater extends acf_field {
 
+	use SC_Sub_Fields_UI;
+
 	public function initialize() {
 		$this->name     = 'sc_repeater';
 		$this->label    = __( 'SC Repeater', 'sc-acf-extra' );
@@ -61,153 +63,20 @@ class SC_ACF_Repeater extends acf_field {
 			'type'  => 'text',
 		) );
 
-		// Sub-fields manager — rendered inside ACF's standard settings row container.
-		$sub_fields = is_array( $field['sub_fields'] ) ? $field['sub_fields'] : array();
-		$supported  = array(
-			'text'     => __( 'テキスト', 'sc-acf-extra' ),
-			'textarea' => __( 'テキストエリア', 'sc-acf-extra' ),
-			'url'      => __( 'URL', 'sc-acf-extra' ),
-			'number'   => __( '数値', 'sc-acf-extra' ),
-			'image'    => __( '画像', 'sc-acf-extra' ),
+		$this->sc_render_sub_fields_block(
+			$field['prefix'],
+			$field['sub_fields'] ?? array(),
+			$field['key'] ?? '',
+			__( 'サブフィールド', 'sc-acf-extra' ),
+			__( 'リピーターの各カラム（列）を定義します。Name は get_field() で使う配列キーになります。', 'sc-acf-extra' )
 		);
-		$field_key  = $field['key'] ?? '';
-		?>
-		<div class="acf-field" data-name="sub_fields" data-type="sc_sub_fields">
-			<div class="acf-label">
-				<label><?php esc_html_e( 'サブフィールド', 'sc-acf-extra' ); ?></label>
-				<p class="description"><?php esc_html_e( 'リピーターの各カラム（列）を定義します。Name は get_field() で使う配列キーになります。', 'sc-acf-extra' ); ?></p>
-			</div>
-			<div class="acf-input">
-				<div class="sc-sub-fields" data-parent-key="<?php echo esc_attr( $field_key ); ?>">
-					<table class="widefat sc-sub-fields-table">
-						<thead>
-							<tr>
-								<th style="width:30%"><?php esc_html_e( 'ラベル', 'sc-acf-extra' ); ?></th>
-								<th style="width:25%"><?php esc_html_e( '名前', 'sc-acf-extra' ); ?></th>
-								<th style="width:40%"><?php esc_html_e( 'タイプ', 'sc-acf-extra' ); ?></th>
-								<th style="width:5%"></th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php foreach ( $sub_fields as $i => $sub ) : ?>
-								<?php $this->render_sub_field_row( $field['prefix'], $i, $sub, $supported ); ?>
-							<?php endforeach; ?>
-						</tbody>
-						<tfoot>
-							<tr>
-								<td colspan="4">
-									<button type="button" class="button sc-sub-fields-add"><?php esc_html_e( '+ サブフィールドを追加', 'sc-acf-extra' ); ?></button>
-								</td>
-							</tr>
-						</tfoot>
-					</table>
-					<template class="sc-sub-fields-row-template"><?php $this->render_sub_field_row( $field['prefix'], '__INDEX__', array(), $supported ); ?></template>
-				</div>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Render one sub-field manager row inside settings UI.
-	 *
-	 * @param string     $prefix   ACF settings prefix (typically "acf_fields[<row id>]").
-	 * @param int|string $index    Row index, or '__INDEX__' for the JS template.
-	 * @param array      $sub      Existing sub-field data.
-	 * @param array      $types    Allowed type slug => label.
-	 */
-	private function render_sub_field_row( $prefix, $index, $sub, $types ) {
-		$key           = $sub['key']           ?? '';
-		$label         = $sub['label']         ?? '';
-		$name          = $sub['name']          ?? '';
-		$type          = $sub['type']          ?? 'text';
-		$return_format = $sub['return_format'] ?? 'array';
-		$new_lines     = $sub['new_lines']     ?? 'wpautop';
-		$base          = "{$prefix}[sub_fields][{$index}]";
-
-		$return_formats = array(
-			'array' => __( '配列 (Array)', 'sc-acf-extra' ),
-			'url'   => __( 'URL', 'sc-acf-extra' ),
-			'id'    => __( 'ID', 'sc-acf-extra' ),
-		);
-
-		$new_lines_opts = array(
-			'wpautop' => __( '段落 + 改行 (wpautop)', 'sc-acf-extra' ),
-			'br'      => __( '改行のみ (<br>)', 'sc-acf-extra' ),
-			''        => __( 'なし (そのまま出力)', 'sc-acf-extra' ),
-		);
-		?>
-		<tr class="sc-sub-fields-row" data-index="<?php echo esc_attr( (string) $index ); ?>" data-type="<?php echo esc_attr( $type ); ?>">
-			<td>
-				<input type="text" name="<?php echo esc_attr( "{$base}[label]" ); ?>" value="<?php echo esc_attr( $label ); ?>" placeholder="<?php esc_attr_e( '例：タイトル', 'sc-acf-extra' ); ?>" />
-				<input type="hidden" name="<?php echo esc_attr( "{$base}[key]" ); ?>" value="<?php echo esc_attr( $key ); ?>" class="sc-sub-fields-key" />
-			</td>
-			<td>
-				<input type="text" name="<?php echo esc_attr( "{$base}[name]" ); ?>" value="<?php echo esc_attr( $name ); ?>" placeholder="<?php esc_attr_e( '例：title', 'sc-acf-extra' ); ?>" />
-			</td>
-			<td>
-				<select name="<?php echo esc_attr( "{$base}[type]" ); ?>" class="sc-sub-fields-type">
-					<?php foreach ( $types as $slug => $type_label ) : ?>
-						<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $type, $slug ); ?>><?php echo esc_html( $type_label ); ?></option>
-					<?php endforeach; ?>
-				</select>
-				<span class="sc-sub-fields-image-only">
-					<label class="sc-sub-fields-inline-label"><?php esc_html_e( '出力', 'sc-acf-extra' ); ?>:</label>
-					<select name="<?php echo esc_attr( "{$base}[return_format]" ); ?>">
-						<?php foreach ( $return_formats as $slug => $rf_label ) : ?>
-							<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $return_format, $slug ); ?>><?php echo esc_html( $rf_label ); ?></option>
-						<?php endforeach; ?>
-					</select>
-				</span>
-				<span class="sc-sub-fields-textarea-only">
-					<label class="sc-sub-fields-inline-label"><?php esc_html_e( '改行', 'sc-acf-extra' ); ?>:</label>
-					<select name="<?php echo esc_attr( "{$base}[new_lines]" ); ?>">
-						<?php foreach ( $new_lines_opts as $slug => $nl_label ) : ?>
-							<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $new_lines, $slug ); ?>><?php echo esc_html( $nl_label ); ?></option>
-						<?php endforeach; ?>
-					</select>
-				</span>
-			</td>
-			<td>
-				<button type="button" class="button-link-delete sc-sub-fields-remove" aria-label="<?php esc_attr_e( 'サブフィールドを削除', 'sc-acf-extra' ); ?>">×</button>
-			</td>
-		</tr>
-		<?php
 	}
 
 	/**
 	 * Sanitise + auto-fill incoming field config on save.
-	 *
-	 * Ensures each sub-field has a non-empty unique key so save/load round-trip works.
 	 */
 	public function update_field( $field ) {
-		if ( ! empty( $field['sub_fields'] ) && is_array( $field['sub_fields'] ) ) {
-			$field['sub_fields'] = array_values( array_filter( $field['sub_fields'], function ( $sub ) {
-				return ! empty( $sub['name'] ) || ! empty( $sub['label'] );
-			} ) );
-			foreach ( $field['sub_fields'] as &$sub ) {
-				if ( empty( $sub['key'] ) ) {
-					$sub['key'] = 'field_' . substr( md5( $field['key'] . ( $sub['name'] ?? '' ) . microtime( true ) ), 0, 13 );
-				}
-				if ( empty( $sub['type'] ) ) {
-					$sub['type'] = 'text';
-				}
-				if ( 'image' === $sub['type'] ) {
-					$allowed = array( 'array', 'url', 'id' );
-					if ( empty( $sub['return_format'] ) || ! in_array( $sub['return_format'], $allowed, true ) ) {
-						$sub['return_format'] = 'array';
-					}
-					$sub['preview_size'] = $sub['preview_size'] ?? 'medium';
-					$sub['library']      = $sub['library']      ?? 'all';
-				}
-				if ( 'textarea' === $sub['type'] ) {
-					$nl_allowed = array( 'wpautop', 'br', '' );
-					if ( ! isset( $sub['new_lines'] ) || ! in_array( $sub['new_lines'], $nl_allowed, true ) ) {
-						$sub['new_lines'] = 'wpautop';
-					}
-				}
-			}
-		}
+		$field['sub_fields'] = $this->sc_sanitize_sub_fields( $field['sub_fields'] ?? array(), $field['key'] ?? '' );
 		return $field;
 	}
 
@@ -291,7 +160,7 @@ class SC_ACF_Repeater extends acf_field {
 				// when persisting to postmeta.
 				$sub_field['prefix'] = "acf[{$field['key']}][{$index}]";
 				$sub_field['name']   = $sub_field['key'];
-				$sub_field['value']  = $row_value[ $sub['name'] ] ?? '';
+				$sub_field['value']  = $row_value[ $sub['key'] ] ?? '';
 				?>
 				<td>
 					<?php acf_render_field( $sub_field ); ?>
@@ -361,8 +230,9 @@ class SC_ACF_Repeater extends acf_field {
 		for ( $i = 0; $i < $count; $i++ ) {
 			$row = array();
 			foreach ( $field['sub_fields'] as $sub ) {
-				$meta_key      = "{$field['name']}_{$i}_{$sub['name']}";
-				$row[ $sub['name'] ] = acf_get_metadata( $post_id, $meta_key );
+				$meta_key            = "{$field['name']}_{$i}_{$sub['name']}";
+				// Keyed by sub-field KEY so ACF's get_sub_field() lookup matches.
+				$row[ $sub['key'] ] = acf_get_metadata( $post_id, $meta_key );
 			}
 			$rows[] = $row;
 		}
@@ -412,8 +282,22 @@ class SC_ACF_Repeater extends acf_field {
 		}
 		foreach ( $value as $i => $row ) {
 			foreach ( $field['sub_fields'] as $sub ) {
-				$cell = $row[ $sub['name'] ] ?? null;
-				$value[ $i ][ $sub['name'] ] = acf_format_value( $cell, $post_id, $sub );
+				// load_value stores by key; templates expect by name. Translate.
+				$cell = $row[ $sub['key'] ] ?? null;
+
+				// ACF's acf_format_value() caches under "{post_id}:{sub_name}:formatted".
+				// Two fields with sub-fields of the same name (e.g. Repeater + Flexible
+				// both having "title") would collide on that cache. Rewrite the
+				// sub-field's name to a unique meta-key form before calling — same
+				// pattern ACF Pro uses internally.
+				$scoped_sub = array_merge( $sub, array(
+					'name' => "{$field['name']}_{$i}_{$sub['name']}",
+				) );
+				$value[ $i ][ $sub['name'] ] = acf_format_value( $cell, $post_id, $scoped_sub );
+
+				if ( $sub['key'] !== $sub['name'] && isset( $value[ $i ][ $sub['key'] ] ) ) {
+					unset( $value[ $i ][ $sub['key'] ] );
+				}
 			}
 		}
 		return $value;
