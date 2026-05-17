@@ -12,8 +12,9 @@
 	'use strict';
 
 	function reindex($wrapper) {
-		var name = $wrapper.data('name');
-		if (!name) return;
+		var prefix = $wrapper.attr('data-input-prefix');
+		if (!prefix) return;
+		var pattern = new RegExp('(' + escapeRegExp(prefix) + ')\\[(\\d+|__INDEX__)\\]');
 		$wrapper.find('> .scn-repeater-table > tbody > .scn-repeater-row').each(function (i) {
 			var $row = $(this);
 			$row.attr('data-index', i);
@@ -22,8 +23,7 @@
 				['name', 'id', 'data-name'].forEach(function (attr) {
 					var val = $el.attr(attr);
 					if (!val) return;
-					var pattern = new RegExp('(' + escapeRegExp(name) + '(?:\\[|_))(\\d+|__INDEX__)');
-					$el.attr(attr, val.replace(pattern, '$1' + i));
+					$el.attr(attr, val.replace(pattern, '$1[' + i + ']'));
 				});
 			});
 		});

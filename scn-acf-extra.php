@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SCN_ACF_EXTRA_VERSION', '0.1.0' );
+define( 'SCN_ACF_EXTRA_VERSION', '0.3.0' );
 define( 'SCN_ACF_EXTRA_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SCN_ACF_EXTRA_URL', plugin_dir_url( __FILE__ ) );
 
@@ -35,7 +35,7 @@ add_action( 'init', static function () {
 add_action( 'plugins_loaded', static function () {
 	if ( ! class_exists( 'ACF' ) ) {
 		add_action( 'admin_notices', static function () {
-			$msg = esc_html__( 'SCN ACF Extra requires Advanced Custom Fields (free or Pro) to be active.', 'scn-acf-extra' );
+			$msg = esc_html__( 'SCN ACF Extra を動作させるには Advanced Custom Fields (無料版または Pro) が有効化されている必要があります。', 'scn-acf-extra' );
 			echo '<div class="notice notice-error"><p>' . $msg . '</p></div>';
 		} );
 		return;

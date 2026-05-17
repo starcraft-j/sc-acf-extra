@@ -64,3 +64,36 @@
 .scn-repeater-table .acf-input {
 	margin: 0;
 }
+
+/* Sub-fields manager (field-group edit screen) */
+
+/* Make every input/select inside the sub-fields table fill its cell. */
+.scn-sub-fields-table input[type="text"],
+.scn-sub-fields-table input[type="number"],
+.scn-sub-fields-table select {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.scn-sub-fields-table td {
+	vertical-align: top;
+}
+
+/* Type-conditional controls: hidden by default, shown only for matching row data-type. */
+.scn-sub-fields-image-only,
+.scn-sub-fields-textarea-only {
+	display: none !important;
+	margin-top: 8px;
+}
+
+.scn-sub-fields-row[data-type="image"] .scn-sub-fields-image-only,
+.scn-sub-fields-row[data-type="textarea"] .scn-sub-fields-textarea-only {
+	display: block !important;
+}
+
+.scn-sub-fields-inline-label {
+	display: block;
+	font-size: 12px;
+	color: #555;
+	margin: 4px 0 2px;
+}
