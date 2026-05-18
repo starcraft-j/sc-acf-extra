@@ -4,7 +4,7 @@ Tags: acf, advanced-custom-fields, repeater, custom-fields
 Requires at least: 5.8
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 0.5.0
+Stable tag: 0.5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,9 @@ starcraft-n が制作・運用する WordPress 案件のために作られた、
 3. ACF (無料版) が有効化されていることを確認してください。
 
 == Changelog ==
+
+= 0.5.1 =
+* Fix: × ボタンで行を全削除しても、保存後に行が復活してしまう不具合を修正 (Repeater / Flexible Content 共通)。原因は 0 行送信時に `$_POST['acf'][<field_key>]` 自体が消え、`update_value()` が呼ばれず親メタが古いまま残るため。ACF Pro と同様の `acfcloneindex` 隠しフィールドを wrapper 直下に出力するように変更。
 
 = 0.1.0 =
 * Initial release: Repeater field (text sub-field, add/remove rows).

@@ -167,6 +167,7 @@ class SC_ACF_Flexible extends acf_field {
 		);
 		?>
 		<div <?php echo acf_esc_attrs( $wrapper_attrs ); ?>>
+			<input type="hidden" name="<?php echo esc_attr( $input_prefix ); ?>[acfcloneindex]" value="" />
 			<div class="sc-flexible-instances">
 				<?php foreach ( $value as $i => $row ) :
 					$layout_name = $row['acf_fc_layout'] ?? '';
@@ -327,6 +328,9 @@ class SC_ACF_Flexible extends acf_field {
 	 * written at `<field>_<i>_<sub_name>` using each row's chosen layout's sub_fields.
 	 */
 	public function update_value( $value, $post_id, $field ) {
+		if ( is_array( $value ) ) {
+			unset( $value['acfcloneindex'] );
+		}
 		$value = is_array( $value ) ? array_values( $value ) : array();
 
 		$layouts_by_name = array();

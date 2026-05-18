@@ -104,6 +104,7 @@ class SC_ACF_Repeater extends acf_field {
 		);
 		?>
 		<div <?php echo acf_esc_attrs( $wrapper_attrs ); ?>>
+			<input type="hidden" name="<?php echo esc_attr( $input_prefix ); ?>[acfcloneindex]" value="" />
 			<table class="sc-repeater-table widefat">
 				<thead>
 					<tr>
@@ -249,6 +250,9 @@ class SC_ACF_Repeater extends acf_field {
 	 * @return int Number of rows saved (also stored as the parent meta value).
 	 */
 	public function update_value( $value, $post_id, $field ) {
+		if ( is_array( $value ) ) {
+			unset( $value['acfcloneindex'] );
+		}
 		$value = is_array( $value ) ? array_values( $value ) : array();
 		$old_count = (int) acf_get_metadata( $post_id, $field['name'] );
 
