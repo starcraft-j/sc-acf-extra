@@ -214,6 +214,7 @@ class SC_ACF_Flexible extends acf_field {
 			<input type="hidden" name="<?php echo esc_attr( "{$base}[acf_fc_layout]" ); ?>" value="<?php echo esc_attr( $layout['name'] ); ?>" />
 
 			<div class="sc-flexible-instance-header">
+				<span class="sc-flexible-instance-handle" aria-hidden="true">≡</span>
 				<span class="sc-flexible-instance-title"><?php echo esc_html( $layout['label'] ?: $layout['name'] ); ?></span>
 				<span class="sc-flexible-instance-actions">
 					<button type="button" class="button-link sc-flexible-instance-up" aria-label="<?php esc_attr_e( '上へ移動', 'sc-acf-extra' ); ?>">↑</button>
@@ -331,7 +332,8 @@ class SC_ACF_Flexible extends acf_field {
 		if ( is_array( $value ) ) {
 			unset( $value['acfcloneindex'] );
 		}
-		$value = is_array( $value ) ? array_values( $value ) : array();
+		// Drop non-array rows defensively before further processing.
+		$value = is_array( $value ) ? array_values( array_filter( $value, 'is_array' ) ) : array();
 
 		$layouts_by_name = array();
 		foreach ( $field['layouts'] ?? array() as $l ) {
@@ -441,7 +443,7 @@ class SC_ACF_Flexible extends acf_field {
 		wp_enqueue_script(
 			'sc-acf-flexible',
 			SC_ACF_EXTRA_URL . 'assets/js/flexible.js',
-			array( 'jquery', 'acf-input' ),
+			array( 'jquery', 'jquery-ui-sortable', 'acf-input' ),
 			SC_ACF_EXTRA_VERSION,
 			true
 		);

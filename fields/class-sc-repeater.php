@@ -200,7 +200,7 @@ class SC_ACF_Repeater extends acf_field {
 		wp_enqueue_script(
 			'sc-acf-repeater',
 			SC_ACF_EXTRA_URL . 'assets/js/repeater.js',
-			array( 'jquery', 'acf-input' ),
+			array( 'jquery', 'jquery-ui-sortable', 'acf-input' ),
 			SC_ACF_EXTRA_VERSION,
 			true
 		);
@@ -253,7 +253,10 @@ class SC_ACF_Repeater extends acf_field {
 		if ( is_array( $value ) ) {
 			unset( $value['acfcloneindex'] );
 		}
-		$value = is_array( $value ) ? array_values( $value ) : array();
+		// Drop anything non-array (e.g. stray sentinels from buggy clients) so we
+		// never write garbage rows. Same effect as `array_filter( ..., 'is_array' )`
+		// but keeps the intent visible.
+		$value = is_array( $value ) ? array_values( array_filter( $value, 'is_array' ) ) : array();
 		$old_count = (int) acf_get_metadata( $post_id, $field['name'] );
 
 		foreach ( $value as $i => $row ) {

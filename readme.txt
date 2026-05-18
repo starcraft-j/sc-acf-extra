@@ -4,7 +4,7 @@ Tags: acf, advanced-custom-fields, repeater, custom-fields
 Requires at least: 5.8
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 0.5.1
+Stable tag: 0.5.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,13 @@ starcraft-n が制作・運用する WordPress 案件のために作られた、
 3. ACF (無料版) が有効化されていることを確認してください。
 
 == Changelog ==
+
+= 0.5.2 =
+* Feat: 行 / レイアウトのドラッグ並べ替えに対応 (Repeater は ≡ ハンドル、Flexible Content はヘッダー左の ≡ ハンドル)。jQuery UI sortable ベース。Flexible の ↑↓ ボタンはアクセシビリティのため併存。
+* Fix: 行を並べ替えた直後に「更新」を押しても保存が走らなかった不具合を修正。原因は reindex 処理が `name` 属性のみ書き換えており、ACF がクライアント側 validation で参照する `id` / `label[for]` がずれてサブミットが silent に中断されていたため。`id` 属性は ACF が大括弧をハイフン化する形式 (`acf-field_xxx-0-…`) で書き換えるよう修正。
+* Fix: ドラッグ中の helper 要素 (clone) から `id` 属性を除去し、duplicate-id 状態で wp.media / select2 等が helper にバインドされる問題を回避。
+* Defensive: `update_value()` の入口で配列内の非配列要素を `array_filter( ..., 'is_array' )` で除去し、想定外のクライアント送信時にも壊れた行が書き込まれないように。
+* 既知の制限: Repeater には ↑↓ ボタンが無いためキーボードのみで並べ替えできません (Flexible は併存)。次バージョンで対応予定。
 
 = 0.5.1 =
 * Fix: × ボタンで行を全削除しても、保存後に行が復活してしまう不具合を修正 (Repeater / Flexible Content 共通)。原因は 0 行送信時に `$_POST['acf'][<field_key>]` 自体が消え、`update_value()` が呼ばれず親メタが古いまま残るため。ACF Pro と同様の `acfcloneindex` 隠しフィールドを wrapper 直下に出力するように変更。

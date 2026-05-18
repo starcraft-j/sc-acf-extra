@@ -8,23 +8,29 @@
 	'use strict';
 
 	function escapeRegExp(str) {
-		return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		return str.replace(/[-.*+?^${}()|[\]\\]/g, '\\$&');
 	}
 
 	function reindex($wrapper) {
 		var prefix = $wrapper.attr('data-input-prefix');
 		if (!prefix) return;
-		var pattern = new RegExp('(' + escapeRegExp(prefix) + ')\\[(\\d+|__INDEX__)\\]');
+		// `name` form: acf[field_xxx][0][field_yyy]
+		var bracketPattern = new RegExp('(' + escapeRegExp(prefix) + ')\\[(\\d+|__INDEX__)\\]');
+		// `id` form: ACF replaces brackets with dashes: acf-field_xxx-0-field_yyy.
+		var idPrefix = prefix.replace(/\[/g, '-').replace(/\]/g, '');
+		var idPattern = new RegExp('(' + escapeRegExp(idPrefix) + ')-(\\d+|__INDEX__)(?=[-"]|$)');
+
 		$wrapper.find('> .sc-flexible-instances > .sc-flexible-instance').each(function (i) {
 			var $inst = $(this);
 			$inst.attr('data-index', i);
-			$inst.find('input, select, textarea').each(function () {
+			$inst.find('input, select, textarea, label').each(function () {
 				var $el = $(this);
-				['name', 'id'].forEach(function (attr) {
-					var val = $el.attr(attr);
-					if (!val) return;
-					$el.attr(attr, val.replace(pattern, '$1[' + i + ']'));
-				});
+				var name = $el.attr('name');
+				if (name) $el.attr('name', name.replace(bracketPattern, '$1[' + i + ']'));
+				var id = $el.attr('id');
+				if (id) $el.attr('id', id.replace(idPattern, '$1-' + i));
+				var forAttr = $el.attr('for');
+				if (forAttr) $el.attr('for', forAttr.replace(idPattern, '$1-' + i));
 			});
 		});
 	}
@@ -78,4 +84,30 @@
 		$inst.insertAfter($next);
 		reindex($wrapper);
 	});
+
+	// Drag-to-sort via the ≡ handle in each instance header. ↑↓ buttons remain
+	// for keyboard / touch accessibility.
+	function initSortable($wrapper) {
+		if ($wrapper.data('sc-sortable-init')) return;
+		$wrapper.data('sc-sortable-init', true);
+		$wrapper.find('> .sc-flexible-instances').sortable({
+			items: '> .sc-flexible-instance',
+			handle: '.sc-flexible-instance-handle',
+			placeholder: 'sc-flexible-sort-placeholder',
+			forcePlaceholderSize: true,
+			axis: 'y',
+			tolerance: 'pointer',
+			update: function () { reindex($wrapper); }
+		});
+	}
+
+	$(function () {
+		$('.sc-flexible').each(function () { initSortable($(this)); });
+	});
+
+	if (typeof acf !== 'undefined' && acf.add_action) {
+		acf.add_action('append', function ($el) {
+			$el.find('.sc-flexible').addBack('.sc-flexible').each(function () { initSortable($(this)); });
+		});
+	}
 })(jQuery);

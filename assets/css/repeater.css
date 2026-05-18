@@ -61,6 +61,21 @@
 	display: none;
 }
 
+/* Drag-to-sort */
+.sc-repeater-sort-placeholder {
+	background: #fffbe6;
+	outline: 1px dashed #c3a200;
+	visibility: visible !important;
+}
+.sc-repeater-table tbody.ui-sortable .sc-repeater-row {
+	cursor: default;
+}
+/* tr drag images need an explicit display:table to keep their row shape. */
+.sc-repeater-table tr.ui-sortable-helper {
+	display: table;
+	box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
 .sc-repeater-table .acf-input {
 	margin: 0;
 }

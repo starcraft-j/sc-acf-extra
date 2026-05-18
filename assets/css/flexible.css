@@ -14,9 +14,18 @@
 .sc-flexible-instance-header {
 	display: flex;
 	align-items: center;
+	gap: 8px;
 	padding: 8px 12px;
 	background: #f6f7f7;
 	border-bottom: 1px solid #c3c4c7;
+}
+
+.sc-flexible-instance-handle {
+	color: #999;
+	cursor: grab;
+	font-size: 16px;
+	user-select: none;
+	padding: 0 2px;
 }
 
 .sc-flexible-instance-title {
@@ -73,4 +82,17 @@
 
 .sc-flexible-layout-template {
 	display: none;
+}
+
+/* Drag-to-sort */
+.sc-flexible-sort-placeholder {
+	height: 60px;
+	margin-bottom: 12px;
+	background: #fffbe6;
+	border: 1px dashed #c3a200;
+	border-radius: 4px;
+	visibility: visible !important;
+}
+.sc-flexible-instances .ui-sortable-helper {
+	box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
