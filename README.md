@@ -1,26 +1,42 @@
 # SC ACF Extra
 
-ACF 無料版に Repeater など Pro 相当のフィールドを追加する拡張プラグイン。**ACF Pro と完全互換のメタ保存形式**で、後から Pro 有効化してもデータはそのまま動きます。
+ACF 無料版に Repeater / Flexible Content を追加する WordPress プラグイン。**ACF Pro と完全互換のメタ保存形式**で、後から Pro を有効化してもデータはそのまま動きます。
 
 ## ステータス
 
-`v0.1.0` — Repeater MVP (テキスト sub-field、追加・削除のみ)
+`v0.5.2` (2026-05-18) — Repeater + Flexible Content + ドラッグ並べ替え対応
 
-## ロードマップ
+## インストール
 
-| 段階 | 内容 | 状態 |
-| --- | --- | --- |
-| 1 | プラグイン骨格 + ACF 依存チェック | ✅ |
-| 2 | Repeater フィールド (テキスト sub-field) | ✅ |
-| 3 | sub-field 種類拡張 (image / select / wysiwyg など) | ⏳ |
-| 4 | ドラッグ並び替え・最小/最大行数・collapsed UI | ⏳ |
-| 5 | Flexible Content | ⏳ |
-| 6 | Options Page | ⏳ |
-| 7 | Clone | ⏳ |
+### A. Git pull (自社運用サイト向け)
 
-## 使い方 (v0.1.0)
+サーバーに SSH で入って:
 
-`functions.php` などで `acf_add_local_field_group()` を使ってフィールドを登録します。Pro と同じ書式です。
+```bash
+cd /path/to/wp-content/plugins
+git clone git@github.com:starcraft-j/sc-acf-extra.git
+wp plugin activate sc-acf-extra
+```
+
+更新は `git pull` のみ。Deploy key の登録手順は内部メモ参照。
+
+### B. ZIP 配布 (クライアント納品向け)
+
+[Releases](https://github.com/starcraft-j/sc-acf-extra/releases) から最新タグの ZIP をダウンロードして wp-admin の「プラグイン → 新規追加 → プラグインのアップロード」で導入。
+
+## 使い方
+
+プラグインを有効化すると、ACF のフィールドタイプセレクタに **「SC Repeater」** と **「SC Flexible Content」** が追加されます。
+
+### A. wp-admin GUI でフィールドグループを作る (推奨・最短)
+
+「ACF → フィールドグループ → 新規追加」から普通に作成。フィールドタイプで `SC Repeater` または `SC Flexible Content` を選ぶと、サブフィールドマネージャ UI が表示されます。
+
+> 単一サイトでサクッと使うならこれで完結。`functions.php` を触る必要はありません。
+
+### B. PHP コードで定義する (再利用・バージョン管理向け)
+
+複数サイトで同じフィールドグループを共有したい / Git 管理したいときは `acf_add_local_field_group()` を使います。書式は ACF Pro と同一:
 
 ```php
 add_action( 'acf/init', function () {
@@ -40,35 +56,52 @@ add_action( 'acf/init', function () {
                 'max'          => 5,
                 'button_label' => 'ポイントを追加',
                 'sub_fields'   => array(
-                    array(
-                        'key'   => 'field_features_title',
-                        'label' => 'タイトル',
-                        'name'  => 'title',
-                        'type'  => 'text',
-                    ),
-                    array(
-                        'key'   => 'field_features_body',
-                        'label' => '内容',
-                        'name'  => 'body',
-                        'type'  => 'text',
-                    ),
+                    array( 'key' => 'field_features_title', 'label' => 'タイトル', 'name' => 'title', 'type' => 'text' ),
+                    array( 'key' => 'field_features_body',  'label' => '内容',     'name' => 'body',  'type' => 'textarea' ),
                 ),
             ),
         ),
         'location' => array(
-            array(
-                array(
-                    'param'    => 'post_type',
-                    'operator' => '==',
-                    'value'    => 'works',
-                ),
-            ),
+            array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'works' ) ),
         ),
     ) );
 } );
 ```
 
-テンプレート側:
+Flexible Content の例:
+
+```php
+array(
+    'key'     => 'field_page_sections',
+    'label'   => 'セクション',
+    'name'    => 'sections',
+    'type'    => 'sc_flexible',
+    'layouts' => array(
+        array(
+            'key'        => 'layout_hero',
+            'label'      => 'Hero',
+            'name'       => 'hero',
+            'sub_fields' => array(
+                array( 'key' => 'field_hero_title', 'label' => 'タイトル', 'name' => 'title', 'type' => 'text' ),
+                array( 'key' => 'field_hero_image', 'label' => '画像',     'name' => 'image', 'type' => 'image', 'return_format' => 'array' ),
+            ),
+        ),
+        array(
+            'key'        => 'layout_cta',
+            'label'      => 'CTA',
+            'name'       => 'cta',
+            'sub_fields' => array(
+                array( 'key' => 'field_cta_text', 'label' => 'ボタンテキスト', 'name' => 'text', 'type' => 'text' ),
+                array( 'key' => 'field_cta_link', 'label' => 'リンク',         'name' => 'link', 'type' => 'url' ),
+            ),
+        ),
+    ),
+),
+```
+
+### テンプレート側
+
+ACF 標準の `have_rows()` / `the_sub_field()` / `get_row_layout()` がそのまま使えます:
 
 ```php
 <?php if ( have_rows( 'features' ) ) : ?>
@@ -81,7 +114,45 @@ add_action( 'acf/init', function () {
     <?php endwhile; ?>
     </ul>
 <?php endif; ?>
+
+<?php if ( have_rows( 'sections' ) ) : while ( have_rows( 'sections' ) ) : the_row(); ?>
+    <?php if ( get_row_layout() === 'hero' ) : ?>
+        <section class="hero">
+            <h1><?php the_sub_field( 'title' ); ?></h1>
+            <?php $img = get_sub_field( 'image' ); ?>
+            <?php if ( $img ) : ?><img src="<?php echo esc_url( $img['url'] ); ?>" alt=""><?php endif; ?>
+        </section>
+    <?php elseif ( get_row_layout() === 'cta' ) : ?>
+        <a class="cta" href="<?php the_sub_field( 'link' ); ?>"><?php the_sub_field( 'text' ); ?></a>
+    <?php endif; ?>
+<?php endwhile; endif; ?>
 ```
+
+## サポートされているサブフィールドタイプ
+
+text / textarea / url / number / image
+
+> 画像は `return_format` (`array` / `url` / `id`)、テキストエリアは `new_lines` (`wpautop` / `br` / なし) を指定可。
+
+## ロードマップ
+
+| 内容 | 状態 |
+| --- | --- |
+| プラグイン骨格 + ACF 依存チェック | ✅ |
+| Repeater フィールド | ✅ |
+| Flexible Content フィールド | ✅ |
+| サブフィールド: text / textarea / url / number / image | ✅ |
+| 行・レイアウトのドラッグ並べ替え | ✅ (v0.5.2) |
+| サブフィールド追加: select / wysiwyg / file | ⏳ 次の優先 |
+| Repeater に ↑↓ ボタン (キーボード操作) | ⏳ |
+| Options Page | ⏳ |
+| Clone フィールド | ⏳ |
+
+## 動作要件
+
+- WordPress 5.8 以上
+- PHP 7.4 以上
+- Advanced Custom Fields (無料版 / Pro どちらでも)
 
 ## ライセンス
 
