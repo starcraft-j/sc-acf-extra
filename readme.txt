@@ -4,7 +4,7 @@ Tags: acf, advanced-custom-fields, repeater, custom-fields
 Requires at least: 5.8
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 0.6.0
+Stable tag: 0.6.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,11 @@ starcraft-n が制作・運用する WordPress 案件のために作られた、
 3. ACF (無料版) が有効化されていることを確認してください。
 
 == Changelog ==
+
+= 0.6.1 =
+* Fix: 0.6.0 で同梱した `plugin-update-checker` (PUC) のローダー (`load-v5p6.php`) と vendor 配下の Parsedown / PucReadmeParser が欠落しており、有効化済みサイトで `Fatal error: require(... load-v5p6.php): Failed to open stream` が発生していた問題を修正。PUC v5.6 を公式リリース zip ベースで丸ごと再同梱。
+* Fix: `.gitignore` の `vendor/` ルールが `lib/plugin-update-checker/vendor/` まで無視していたため、negate ルール (`!lib/plugin-update-checker/vendor/`) を追加し PUC 内部 vendor をリポジトリに含めるよう修正。
+* Note: 0.6.0 を手動アップロード済みのサイトは、本リリースを wp-admin → プラグイン → 「新規追加」 → 「プラグインのアップロード」 から zip で 1 度だけ上書きインストールすれば復旧。以降は PUC の更新通知で自動適用。
 
 = 0.6.0 =
 * Feat: GitHub Release ベースの自動アップデートに対応。`YahnisElsts/plugin-update-checker` v5.6 を `lib/plugin-update-checker/` に同梱し、`PucFactory::buildUpdateChecker()` でリポジトリを登録。今後 `vX.Y.Z` タグでリリースを切ると wp-admin の「更新通知」から差分適用できる。

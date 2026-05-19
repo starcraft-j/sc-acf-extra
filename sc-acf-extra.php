@@ -3,7 +3,7 @@
  * Plugin Name: SC ACF Extra
  * Plugin URI:  https://github.com/starcraft-j/sc-acf-extra
  * Description: ACF 無料版に Repeater など Pro 相当のフィールドを追加する拡張プラグイン。Pro 互換のメタ保存形式で、後から ACF Pro へ無断データ移行可能。
- * Version:     0.6.0
+ * Version:     0.6.1
  * Author:      starcraft-n
  * Author URI:  https://starcraft-n.co.jp
  * License:     GPL-2.0-or-later
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SC_ACF_EXTRA_VERSION', '0.6.0' );
+define( 'SC_ACF_EXTRA_VERSION', '0.6.1' );
 define( 'SC_ACF_EXTRA_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SC_ACF_EXTRA_URL', plugin_dir_url( __FILE__ ) );
 
