@@ -4,7 +4,7 @@ Tags: acf, advanced-custom-fields, repeater, custom-fields
 Requires at least: 5.8
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 0.6.1
+Stable tag: 0.6.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,9 @@ starcraft-n が制作・運用する WordPress 案件のために作られた、
 3. ACF (無料版) が有効化されていることを確認してください。
 
 == Changelog ==
+
+= 0.6.2 =
+* Fix: Repeater 内の image サブフィールドで 「画像を追加」 ボタンを押してもメディアモーダルが開かない不具合を修正。`render_row()` で `acf_render_field()` を直接呼び出していたため、ACF の image コントローラが attach する `<div class="acf-field acf-field-image" data-type="image" ...>` ラッパが欠落していた。`acf_render_field_wrap()` 経由に変更し、append 時の `acf.do_action('append', $row)` で image / wysiwyg / select2 等のサブフィールドコントローラが正しく初期化されるようにした。Flexible Content 側は元から `acf_render_field_wrap()` を使っていたため変更なし。
 
 = 0.6.1 =
 * Fix: 0.6.0 で同梱した `plugin-update-checker` (PUC) のローダー (`load-v5p6.php`) と vendor 配下の Parsedown / PucReadmeParser が欠落しており、有効化済みサイトで `Fatal error: require(... load-v5p6.php): Failed to open stream` が発生していた問題を修正。PUC v5.6 を公式リリース zip ベースで丸ごと再同梱。

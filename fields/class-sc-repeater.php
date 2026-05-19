@@ -162,9 +162,13 @@ class SC_ACF_Repeater extends acf_field {
 				$sub_field['prefix'] = "acf[{$field['key']}][{$index}]";
 				$sub_field['name']   = $sub_field['key'];
 				$sub_field['value']  = $row_value[ $sub['key'] ] ?? '';
+				// acf_render_field_wrap outputs the `<div class="acf-field acf-field-<type>" data-type="..." data-name="...">`
+				// container that ACF's field-type JS controllers (image, wysiwyg, select2,
+				// etc.) hook into. Without it, e.g. the image sub-field's 「画像を追加」
+				// button stays inert because acf.Field instances are never attached.
 				?>
 				<td>
-					<?php acf_render_field( $sub_field ); ?>
+					<?php acf_render_field_wrap( $sub_field, 'div', 'label' ); ?>
 				</td>
 			<?php endforeach; ?>
 			<td class="sc-repeater-remove">
