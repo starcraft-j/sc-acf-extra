@@ -4,7 +4,7 @@ Tags: acf, advanced-custom-fields, repeater, custom-fields
 Requires at least: 5.8
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 0.5.2
+Stable tag: 0.6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,10 @@ starcraft-n が制作・運用する WordPress 案件のために作られた、
 3. ACF (無料版) が有効化されていることを確認してください。
 
 == Changelog ==
+
+= 0.6.0 =
+* Feat: GitHub Release ベースの自動アップデートに対応。`YahnisElsts/plugin-update-checker` v5.6 を `lib/plugin-update-checker/` に同梱し、`PucFactory::buildUpdateChecker()` でリポジトリを登録。今後 `vX.Y.Z` タグでリリースを切ると wp-admin の「更新通知」から差分適用できる。
+* Note: Release アセット (zip) を有効化 (`enableReleaseAssets()`) しているため、GitHub Release に手動でビルド zip を添付した場合はそちらが優先される。添付が無い場合は tag からの自動 zipball にフォールバック。
 
 = 0.5.2 =
 * Feat: 行 / レイアウトのドラッグ並べ替えに対応 (Repeater は ≡ ハンドル、Flexible Content はヘッダー左の ≡ ハンドル)。jQuery UI sortable ベース。Flexible の ↑↓ ボタンはアクセシビリティのため併存。

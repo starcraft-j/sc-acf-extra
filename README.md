@@ -4,7 +4,7 @@ ACF 無料版に Repeater / Flexible Content を追加する WordPress プラグ
 
 ## ステータス
 
-`v0.5.2` (2026-05-18) — Repeater + Flexible Content + ドラッグ並べ替え対応
+`v0.6.0` (2026-05-19) — GitHub Release ベース自動アップデート対応 (plugin-update-checker 内蔵)
 
 ## インストール
 
@@ -143,6 +143,7 @@ text / textarea / url / number / image
 | Flexible Content フィールド | ✅ |
 | サブフィールド: text / textarea / url / number / image | ✅ |
 | 行・レイアウトのドラッグ並べ替え | ✅ (v0.5.2) |
+| GitHub Release ベースの自動アップデート | ✅ (v0.6.0) |
 | サブフィールド追加: select / wysiwyg / file | ⏳ 次の優先 |
 | Repeater に ↑↓ ボタン (キーボード操作) | ⏳ |
 | Options Page | ⏳ |
